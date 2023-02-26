@@ -4,7 +4,7 @@ name: Maven build Fetching "settings.xml"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ feature ]
   workflow_dispatch:
     
 jobs:
