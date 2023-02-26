@@ -26,4 +26,11 @@ jobs:
     - name: Build with maven
       run: mvn -B clean package -s .maven/settings.xml
         
-   
+    - name: Upload artifact 
+      uses: actions/upload-artifact@master
+      with:
+          name: artifacts
+          path: target/*.jar
+    - uses: actions/download-artifact@master
+      with:
+        name: artifacts          
