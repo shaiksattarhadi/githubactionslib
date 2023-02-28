@@ -3,9 +3,12 @@
 name: Maven build Fetching "settings.xml"
 
 on:
-  push:
-    branches: [ feature ]
-  workflow_dispatch:
+  pull_request:
+    types:
+    - closed
+    branches:
+    - Development
+    
     
 jobs:
   build:
