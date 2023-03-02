@@ -58,6 +58,8 @@ jobs:
           cd $GITHUB_WORKSPACE/lib3
           mvn -B clean package -s .maven/settings.xml
         else
-          echo "Changes not found in lib dirs"
+          echo "Changes not found in any lib dirs, building parent pom.xml"
+          cd $GITHUB_WORKSPACE
+          mvn -B clean package -s .maven/settings.xml
         fi 
         
