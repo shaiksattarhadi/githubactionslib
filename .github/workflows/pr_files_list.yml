@@ -39,20 +39,20 @@ jobs:
         do
           parentdir="$(echo $filename  | head -n1 | sed 's/"//g' | cut -d "/" -f1 )"
           echo "Files changed in these folders is: $parentdir"
-          echo "change_in_dir=$parentdir" >> $env:GITHUB_ENV
+          echo "change_in_dir=$parentdir" >> $GITHUB_ENV
         done
 
     - name: Build with maven
       run: |
         for foldername in $change_in_dir
         do 
-          if [ $foldername == lib1 ]
+          if [ $foldername == "lib1" ]
           then
             echo "change found in lib1"
-          elif [ $foldername == lib2 ]
+          elif [ $foldername == "lib2" ]
             echo "change found in lib2"
           then
-          elif [ $foldername == lib3 ]
+          elif [ $foldername == "lib3" ]
             echo "change found in lib3"
           else
             echo "Changes not found in lib dirs"
