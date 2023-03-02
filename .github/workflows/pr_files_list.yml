@@ -44,8 +44,22 @@ jobs:
 
         if grep -Fxq "lib1" changedfolder.txt
         then
-          echo "Changes found in lib1"
+          echo "Changes found in lib1, so doing mvn build lib1"
+          cd $GITHUB_WORKSPACE/lib1
+          mvn -B clean package -s .maven/settings.xml
+        elif grep -Fxq "lib2" changedfolder.txt
+        then
+          echo "Changes found in lib2, so doing mvn build lib2"
+          cd $GITHUB_WORKSPACE/lib2
+          mvn -B clean package -s .maven/settings.xml
+        elif grep -Fxq "lib3" changedfolder.txt
+        then
+          echo "Changes found in lib3, so doing mvn build lib3"
+          cd $GITHUB_WORKSPACE/lib3
+          mvn -B clean package -s .maven/settings.xml
         else
-          echo "Changes not found in lib dirs"
+          echo "Changes not found in any lib dirs, building parent pom.xml"
+          cd $GITHUB_WORKSPACE
+          mvn -B clean package -s .maven/settings.xml
         fi 
         
