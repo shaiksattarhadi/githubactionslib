@@ -1,0 +1,60 @@
+# This workflow will build a MuleSoft project and deploy to CloudHub
+
+name: Get changed files in PR
+
+on:
+  pull_request:
+    branches: [Development]
+    types: [opened, edited, synchronize]
+
+env:
+  git_token: ${{ secrets.TOKEN }}
+  pr_number: ${{ github.event.pull_request.number }}
+  reponame: ${{ github.event.repository.name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Cache Depenedencies
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: maven
+      
+    - name: Get changed files list
+      run: |
+        sudo apt-get update
+        sudo apt-get install jq
+        curl -s -H "Authorization: token "${git_token}"" "https://api.github.com/repos/$reponame/pulls/$pr_number/files" >> pr_changed_list.json
+        #cat pr_changed_list.json
+        changed_list=`jq '.[].filename' pr_changed_list.json`
+        echo "Changed File list is: $changed_list"
+        
+        for filename in `jq '.[].filename' pr_changed_list.json`
+        do
+          parentdir="$(echo $filename  | head -n1 | sed 's/"//g' | cut -d "/" -f1 )"
+          echo "Files changed in these folders is: $parentdir"
+          echo "change_in_dir=$parentdir" >> $env:GITHUB_ENV
+        done
+
+    - name: Build with maven
+      run: |
+        for foldername in $change_in_dir
+        do 
+          if [ $foldername == lib1 ]
+          then
+            echo "change found in lib1"
+          elif [ $foldername == lib2 ]
+            echo "change found in lib2"
+          then
+          elif [ $foldername == lib3 ]
+            echo "change found in lib3"
+          else
+            echo "Changes not found in lib dirs"
+          fi 
+        done
