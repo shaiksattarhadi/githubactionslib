@@ -45,6 +45,12 @@ jobs:
         if grep -Fxq "lib1" changedfolder.txt
         then
           echo "Changes found in lib1"
+        elif grep -Fxq "lib2" changedfolder.txt
+        then
+          echo "Changes found in lib2"
+        elif grep -Fxq "lib3" changedfolder.txt
+        then
+          echo "Changes found in lib3"
         else
           echo "Changes not found in lib dirs"
         fi 
